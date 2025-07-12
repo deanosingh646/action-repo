@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Webhook Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .event { padding: 10px; margin: 5px 0; background: #f5f5f5; border-radius: 5px; }
+        #events { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>GitHub Webhook Dashboard</h1>
+    <div id="events"></div>
+
+    <script>
+        function loadEvents() {
+            fetch('/events')
+                .then(response => response.json())
+                .then(events => {
+                    const container = document.getElementById('events');
+                    container.innerHTML = events.map(event => 
+                        `<div class="event">${event}</div>`
+                    ).join('');
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Load events immediately and then every 5 seconds
+        loadEvents();
+        setInterval(loadEvents, 5000);
+    </script>
+</body>
+</html>
